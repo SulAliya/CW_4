@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 
 class AbstractAddVacancy(ABC):
     @abstractmethod
-    def add_vacancy(self, vacancy):
+    def save_vacancy(self, vacancy):
         pass
 
     @abstractmethod
@@ -23,7 +23,7 @@ class VacancyList(AbstractAddVacancy):
     def __init__(self, filename):
         self.filename = filename
 
-    def add_vacancy(self, vacancy):
+    def save_vacancy(self, vacancy):
         with open(self.filename, 'a', encoding='utf-8') as file:
             json.dump(vacancy, file)
             file.write(f'{vacancy}\n')
