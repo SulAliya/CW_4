@@ -12,6 +12,9 @@ class GetVacancy:
                 f'{self.currency}\n '
                 f'Обязанности: {self.responsibility}\n')
 
+    def __call__(self, *args, **kwargs):
+        return self.responsibility
+
     def salary_comparison(self):
         """
         валидация данных, указана или нет зарплата.
@@ -38,3 +41,4 @@ class GetVacancy:
         if isinstance(obj, GetVacancy):
             return obj.__dict__
         return obj
+
