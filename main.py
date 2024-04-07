@@ -1,6 +1,3 @@
-import json
-import random
-from typing import Optional, List
 from src.get_vacancies import GetVacancy
 from src.json_list import HeadHunterAPI
 from src.add_vacancy import VacancyList
@@ -11,13 +8,10 @@ def user_interaction():
     search_query = input("Введите поисковый запрос: ")
     top_n = int(input("Введите количество вакансий для вывода в топ N: "))
     filter_words = input("Введите ключевые слова для фильтрации вакансий: ").split()
-    salary_range = input("Введите диапазон зарплат: ")  # Пример: 100000 - 150000
 
     hh_api = HeadHunterAPI()
     vacancies = hh_api.load_vacancies(search_query)
-    # print(vacancies)
-    list_of_vacancies: List[GetVacancy] = []
-    # if vacancies and 'items' in vacancies:
+    list_of_vacancies = []
     for vacancy_parameters in vacancies['items']:
         if isinstance(vacancy_parameters, dict):
             name = vacancy_parameters.get('name')
@@ -37,19 +31,14 @@ def user_interaction():
             else:
                 responsibility = 'не указано'
             list_of_vacancies.append(GetVacancy(name, link, salary_from, salary_to, currency, responsibility))
-    # print(list_of_vacancies)
-    # filtered_vacancies = [w for w in list_of_vacancies if w(filter_words)]
+
     filtered_vacancies = list(filter(lambda s: s not in filter_words, list_of_vacancies))
-    ranged_vacancies = filtered_vacancies[:top_n]
+    sorted_vacancies = sorted(filtered_vacancies, key=lambda x: x.salary_from is not None, reverse=True)
+    ranged_vacancies = sorted_vacancies[:top_n]
     for vacancy_parameters in ranged_vacancies[:top_n]:
         print(vacancy_parameters)
-
-
-    # filtered_vacancies = filter_vacancies(vacancies_list, filter_words)
-    # ranged_vacancies = get_vacancies_by_salary(filtered_vacancies, salary_range)
-    # sorted_vacancies = sort_vacancies(ranged_vacancies)
-    # top_vacancies = get_top_vacancies(sorted_vacancies, top_n)
-    # print_vacancies(top_vacancies)
+    save_json = VacancyList('data/hh_vacancies.json')
+    save_json.save_vacancy(vacancies)
 
 
 if __name__ == "__main__":

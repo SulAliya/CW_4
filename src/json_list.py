@@ -25,12 +25,3 @@ class HeadHunterAPI(AbstractAPI):
         params = {'text': keyword, 'page': 0, 'per_page': 100}
         json_data = requests.get(self.url, params=params).json()
         return json_data
-
-
-    # for vacacion in hh_vacancies['items']:
-    #     name = vacacion['name']
-    #     link = vacacion['area']['url']
-    #     salary_from = vacacion['salary']['from']
-    #     salary_to = vacacion ['salary']['to']
-    #     description = vacacion['snippet']['responsibility']
-    #     vac = f' Вакансия {name}, ссылка: {link}, Зарплата: {salary_from} - {salary_to}, Описание: {description}'
