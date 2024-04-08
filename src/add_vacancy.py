@@ -24,8 +24,8 @@ class VacancyList(AbstractAddVacancy):
         self.filename = filename
 
     def save_vacancy(self, vacancy):
-        with open(self.filename, 'a', encoding='utf-8') as file:
-            json.dump(vacancy, file)
+        with open(self.filename, 'w', encoding='utf-8') as file:
+            json.dump(vacancy, file, ensure_ascii=False, indent=4)
             file.write(f'{vacancy}\n')
 
     def get_data_on_criteria(self, vacancy):
